@@ -4,14 +4,14 @@ import java.util.Arrays;
 
 public class Main {
 
-    private static void printFirstAreaShape(Shape[] shapeArray){
+    private static String printFirstAreaShape(Shape[] shapeArray){
         Arrays.sort(shapeArray,Shape.AreaComparator);
-        System.out.println("Первую по величине площадь имеет фигура " + shapeArray[6].getName());
+        return shapeArray[6].getName();
     }
 
-    private static void printSecondPerimeterShape(Shape[] shapeArray){
+    private static String printSecondPerimeterShape(Shape[] shapeArray){
         Arrays.sort(shapeArray,Shape.PerimeterComparator);
-        System.out.println("Второй по величине периметр имеет фигура " + shapeArray[5].getName());
+        return shapeArray[5].getName();
     }
 
     public static void main(String[] args) {
@@ -26,8 +26,8 @@ public class Main {
         shapeArray[5] = new Rectangle(2, 8,"Rectangle2");
         shapeArray[6] = new Circle(1,"Circle2");
 
-        printFirstAreaShape(shapeArray);
-        printSecondPerimeterShape(shapeArray);
+        System.out.println("Первую по величине площадь имеет фигура " + printFirstAreaShape(shapeArray));
+        System.out.println("Второй по величине периметр имеет фигура " + printSecondPerimeterShape(shapeArray));
     }
 }
 
