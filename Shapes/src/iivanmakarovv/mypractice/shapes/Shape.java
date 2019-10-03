@@ -1,6 +1,8 @@
 package iivanmakarovv.mypractice.shapes;
 
-interface Shapes {
+import java.util.Comparator;
+
+interface Shape {
     double getWidth();
 
     double getHeight();
@@ -8,13 +10,35 @@ interface Shapes {
     double getArea();
 
     double getPerimeter();
+
+    String getName();
+
+    Comparator<Shape> AreaComparator = new Comparator<Shape>() {
+        @Override
+        public int compare(Shape one, Shape two) {
+            return (int) (one.getArea() - two.getArea());
+        }
+    };
+
+    Comparator<Shape> PerimeterComparator = new Comparator<Shape>() {
+        @Override
+        public int compare(Shape one, Shape two) {
+            return (int) (one.getPerimeter() - two.getPerimeter());
+        }
+    };
 }
 
-class Square implements Shapes {
+class Square implements Shape {
     private double x;
+    private String name;
 
-    Square(double x) {
+    Square(double x, String name) {
         this.x = x;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public double getWidth() {
@@ -34,21 +58,27 @@ class Square implements Shapes {
     }
 }
 
-class Triangle implements Shapes {
+class Triangle implements Shape {
     private double x1;
     private double x2;
     private double x3;
     private double y1;
     private double y2;
     private double y3;
+    private String name;
 
-    Triangle(double x1, double x2, double x3, double y1, double y2, double y3) {
+    Triangle(double x1, double x2, double x3, double y1, double y2, double y3, String name) {
         this.x1 = x1;
         this.x2 = x2;
         this.x3 = x3;
         this.y1 = y1;
         this.y2 = y2;
         this.y3 = y3;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     private double getSideA() {
@@ -81,13 +111,19 @@ class Triangle implements Shapes {
     }
 }
 
-class Rectangle implements Shapes {
+class Rectangle implements Shape {
     private double x;
     private double y;
+    private String name;
 
-    Rectangle(double x, double y) {
+    Rectangle(double x, double y, String name) {
         this.x = x;
         this.y = y;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public double getWidth() {
@@ -108,11 +144,17 @@ class Rectangle implements Shapes {
 
 }
 
-class Circle implements Shapes {
+class Circle implements Shape {
     private double radius;
+    private String name;
 
-    Circle(double radius) {
+    Circle(double radius, String name) {
         this.radius = radius;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public double getWidth() {
