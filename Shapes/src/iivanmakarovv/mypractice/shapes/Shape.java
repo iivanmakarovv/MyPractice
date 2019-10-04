@@ -11,8 +11,6 @@ interface Shape {
 
     double getPerimeter();
 
-    String getName();
-
     Comparator<Shape> AreaComparator = new Comparator<Shape>() {
         @Override
         public int compare(Shape one, Shape two) {
@@ -30,15 +28,31 @@ interface Shape {
 
 class Square implements Shape {
     private double x;
-    private String name;
 
-    Square(double x, String name) {
-        this.x = x;
-        this.name = name;
+    @Override
+    public String toString() {
+        return "Square{" +
+                "x=" + x +
+                '}';
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Square square = (Square) o;
+
+        return x == square.x;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(x);
+        return (int) (temp ^ (temp >>> 32));
+    }
+
+    Square(double x) {
+        this.x = x;
     }
 
     public double getWidth() {
@@ -65,20 +79,59 @@ class Triangle implements Shape {
     private double y1;
     private double y2;
     private double y3;
-    private String name;
 
-    Triangle(double x1, double x2, double x3, double y1, double y2, double y3, String name) {
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "x1=" + x1 +
+                ", x2=" + x2 +
+                ", x3=" + x3 +
+                ", y1=" + y1 +
+                ", y2=" + y2 +
+                ", y3=" + y3 +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Triangle triangle = (Triangle) o;
+
+        if (x1 != triangle.x1) return false;
+        if (x2 != triangle.x2) return false;
+        if (x3 != triangle.x3) return false;
+        if (y1 != triangle.y1) return false;
+        if (y2 != triangle.y2) return false;
+        return y3 == triangle.y3;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(x1);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(x2);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(x3);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y1);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y2);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y3);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    Triangle(double x1, double x2, double x3, double y1, double y2, double y3) {
         this.x1 = x1;
         this.x2 = x2;
         this.x3 = x3;
         this.y1 = y1;
         this.y2 = y2;
         this.y3 = y3;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     private double getSideA() {
@@ -114,16 +167,39 @@ class Triangle implements Shape {
 class Rectangle implements Shape {
     private double x;
     private double y;
-    private String name;
 
-    Rectangle(double x, double y, String name) {
-        this.x = x;
-        this.y = y;
-        this.name = name;
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rectangle rectangle = (Rectangle) o;
+
+        if (x != rectangle.x) return false;
+        return y == rectangle.y;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(x);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    Rectangle(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     public double getWidth() {
@@ -146,15 +222,31 @@ class Rectangle implements Shape {
 
 class Circle implements Shape {
     private double radius;
-    private String name;
 
-    Circle(double radius, String name) {
-        this.radius = radius;
-        this.name = name;
+    @Override
+    public String toString() {
+        return "Circle{" +
+                "radius=" + radius +
+                '}';
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Circle circle = (Circle) o;
+
+        return radius == circle.radius;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(radius);
+        return (int) (temp ^ (temp >>> 32));
+    }
+
+    Circle(double radius) {
+        this.radius = radius;
     }
 
     public double getWidth() {
