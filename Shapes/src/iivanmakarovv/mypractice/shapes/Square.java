@@ -16,7 +16,10 @@ public class Square implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
 
@@ -27,8 +30,10 @@ public class Square implements Shape {
 
     @Override
     public int hashCode() {
-        long temp = Double.doubleToLongBits(x);
-        return (int) (temp ^ (temp >>> 32));
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(x);
+        return hash;
     }
 
     @Override

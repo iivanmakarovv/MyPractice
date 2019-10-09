@@ -31,7 +31,10 @@ public class Triangle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
 
@@ -47,21 +50,15 @@ public class Triangle implements Shape {
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        temp = Double.doubleToLongBits(x1);
-        result = (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(x2);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(x3);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(y1);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(y2);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(y3);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(x1);
+        hash = prime * hash + Double.hashCode(x2);
+        hash = prime * hash + Double.hashCode(x3);
+        hash = prime * hash + Double.hashCode(y1);
+        hash = prime * hash + Double.hashCode(y2);
+        hash = prime * hash + Double.hashCode(y3);
+        return hash;
     }
 
     private double getSide(double x1, double x2, double y1, double y2) {
@@ -80,9 +77,9 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double p = getPerimeter() / 2;
-        return Math.sqrt(p * (p - getSide(x1, x2, y1, y2)) *
-                (p - getSide(x2, x3, y2, y3)) * (p - getSide(x3, x1, y3, y1)));
+        double halfPerimeter = getPerimeter() / 2;
+        return Math.sqrt(halfPerimeter * (halfPerimeter - getSide(x1, x2, y1, y2)) *
+                (halfPerimeter - getSide(x2, x3, y2, y3)) * (halfPerimeter - getSide(x3, x1, y3, y1)));
     }
 
     @Override

@@ -19,25 +19,25 @@ public class Rectangle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
 
         Rectangle rectangle = (Rectangle) o;
 
-        if (x != rectangle.x) return false;
-        return y == rectangle.y;
+        return y == rectangle.y && x == rectangle.x;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        temp = Double.doubleToLongBits(x);
-        result = (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(y);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(x);
+        hash = prime * hash + Double.hashCode(y);
+        return hash;
     }
 
     @Override

@@ -7,12 +7,12 @@ import java.util.Arrays;
 public class Main {
     private static String getFirstAreaShape(Shape[] shapeArray) {
         Arrays.sort(shapeArray, new AreaComparator());
-        return shapeArray[6].toString();
+        return shapeArray[shapeArray.length - 1].toString();
     }
 
     private static String getSecondPerimeterShape(Shape[] shapeArray) {
         Arrays.sort(shapeArray, new PerimeterComparator());
-        return shapeArray[5].toString();
+        return shapeArray[shapeArray.length - 2].toString();
     }
 
     public static void main(String[] args) {
