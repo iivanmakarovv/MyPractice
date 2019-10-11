@@ -78,4 +78,3 @@ public class Range {
         return new Range[]{new Range(first.from, first.to)};
     }
 }
-

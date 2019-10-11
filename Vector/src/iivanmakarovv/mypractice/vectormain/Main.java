@@ -30,13 +30,13 @@ public class Main {
         Vector vector3 = new Vector(6, array);
         Vector vector4 = new Vector(vector3);
 
-        System.out.println(vector1.toString());
+        System.out.println(vector1);
 
         Vector vector5 = getVectorsSum(vector3, vector2);
-        System.out.println(vector5.toString());
+        System.out.println(vector5);
 
         Vector vector6 = getVectorsDifference(vector5, vector2);
-        System.out.println(vector6.toString());
+        System.out.println(vector6);
 
         System.out.println(getVectorsScalarMultiplication(vector6, vector4));
     }
