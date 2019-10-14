@@ -1,4 +1,6 @@
-package iivanmakarovv.mypractice.shapes;
+package iivanmakarovv.mypractice.shapesmain;
+
+import iivanmakarovv.mypractice.shapes.Shape;
 
 import java.util.Comparator;
 

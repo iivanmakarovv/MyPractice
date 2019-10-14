@@ -1,19 +1,19 @@
 package iivanmakarovv.mypractice.shapes;
 
 public class Rectangle implements Shape {
-    private double x;
-    private double y;
+    private double height;
+    private double width;
 
-    public Rectangle(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public Rectangle(double height, double width) {
+        this.height = height;
+        this.width = width;
     }
 
     @Override
     public String toString() {
         return "Rectangle{" +
-                "x=" + x +
-                ", y=" + y +
+                "x=" + height +
+                ", y=" + width +
                 '}';
     }
 
@@ -22,42 +22,41 @@ public class Rectangle implements Shape {
         if (o == this) {
             return true;
         }
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
         Rectangle rectangle = (Rectangle) o;
 
-        return y == rectangle.y && x == rectangle.x;
+        return width == rectangle.width && height == rectangle.height;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Double.hashCode(x);
-        hash = prime * hash + Double.hashCode(y);
+        hash = prime * hash + Double.hashCode(height);
+        hash = prime * hash + Double.hashCode(width);
         return hash;
     }
 
     @Override
     public double getWidth() {
-        return y;
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return x;
+        return height;
     }
 
     @Override
     public double getArea() {
-        return x * y;
+        return height * width;
     }
 
     @Override
     public double getPerimeter() {
-        return x * 2 + y * 2;
+        return height * 2 + width * 2;
     }
-
 }

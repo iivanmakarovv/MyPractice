@@ -1,16 +1,16 @@
 package iivanmakarovv.mypractice.shapes;
 
 public class Square implements Shape {
-    private double x;
+    private double side;
 
     public Square(double x) {
-        this.x = x;
+        this.side = x;
     }
 
     @Override
     public String toString() {
         return "Square{" +
-                "x=" + x +
+                "x=" + side +
                 '}';
     }
 
@@ -19,40 +19,40 @@ public class Square implements Shape {
         if (o == this) {
             return true;
         }
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
         Square square = (Square) o;
 
-        return x == square.x;
+        return side == square.side;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Double.hashCode(x);
+        hash = prime * hash + Double.hashCode(side);
         return hash;
     }
 
     @Override
     public double getWidth() {
-        return x;
+        return side;
     }
 
     @Override
     public double getHeight() {
-        return x;
+        return side;
     }
 
     @Override
     public double getArea() {
-        return x * x;
+        return side * side;
     }
 
     @Override
     public double getPerimeter() {
-        return x * 4;
+        return side * 4;
     }
 }
