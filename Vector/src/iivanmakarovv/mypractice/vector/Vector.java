@@ -3,51 +3,55 @@ package iivanmakarovv.mypractice.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private double n;
     private double[] array;
 
-    public Vector(double n) {
+    public Vector(int n) {
         if (n <= 0) {
-            throw new IllegalArgumentException("n должн быть больше 0");
+            throw new IllegalArgumentException("Размерность вектора должна быть больше 0");
         }
-        this.n = n;
-        this.array = new double[(int) n];
+
+        array = new double[n];
         for (int i = 0; i < n; ++i) {
-            this.array[i] = 0;
+            array[i] = 0;
         }
     }
 
     public Vector(Vector vector) {
-        this.n = vector.n;
-        this.array = Arrays.copyOf(vector.array, (int) this.n);
+        array = Arrays.copyOf(vector.array, vector.array.length);
     }
 
     public Vector(double[] array) {
         if (array.length <= 0) {
-            throw new IllegalArgumentException("n должн быть больше 0");
+            throw new IllegalArgumentException("Размерность вектора должна быть больше 0");
         }
-        this.n = array.length;
+
         this.array = Arrays.copyOf(array, array.length);
     }
 
-    public Vector(double n, double[] array) {
+    public Vector(int n, double[] array) {
         if (n <= 0) {
-            throw new IllegalArgumentException("n должн быть больше 0");
+            throw new IllegalArgumentException("Размерность вектора должна быть больше 0");
         }
-        this.n = n;
-        this.array = Arrays.copyOf(array, (int) n);
+
+        this.array = Arrays.copyOf(array, n);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Vector vector = (Vector) o;
 
-        if (this.n != vector.n) return false;
-        for (int i = 0; i < this.n; ++i) {
-            if (this.array[i] != vector.array[i]) {
+        if (array.length != vector.array.length) {
+            return false;
+        }
+        for (int i = 0; i < array.length; ++i) {
+            if (array[i] != vector.array[i]) {
                 return false;
             }
         }
@@ -58,73 +62,144 @@ public class Vector {
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        for (int i = 0; i < this.n; ++i) {
-            hash = prime * hash + Double.hashCode(this.array[i]);
-        }
+        hash = prime * hash + Arrays.hashCode(array);
+
         return hash;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(array);
+        String line = "{";
+        if (array.length != 0) {
+            line += String.valueOf(array[0]);
+            for (int i = 1; i < array.length; ++i) {
+                line = line.concat(", ");
+                line = line.concat(String.valueOf(array[i]));
+            }
+        }
+
+        return line.concat("}");
     }
 
-    public void sum(Vector vector) {
-        if (this.array.length >= vector.array.length) {
-            for (int i = 0; i < vector.array.length; ++i) {
-                this.array[i] += vector.array[i];
+    public void plus(Vector vector) {
+        int max = Math.max(array.length, vector.array.length);
+        int min = Math.min(array.length, vector.array.length);
+        double[] temp = new double[max];
+
+        for (int i = 0; i < min; ++i) {
+            temp[i] = array[i] + vector.array[i];
+        }
+
+        if (max != min) {
+            if (max == array.length) {
+                System.arraycopy(array, min, temp, min, max - min);
+            } else {
+                System.arraycopy(vector.array, min, temp, min, max - min);
             }
-        } else {
-            for (int i = 0; i < this.array.length; ++i) {
-                vector.array[i] += this.array[i];
+        }
+        array = temp;
+    }
+
+    public void minus(Vector vector) {
+        int max = Math.max(array.length, vector.array.length);
+        int min = Math.min(array.length, vector.array.length);
+        double[] temp = new double[max];
+
+        for (int i = 0; i < min; ++i) {
+            temp[i] = array[i] - vector.array[i];
+        }
+
+        if (max != min) {
+            if (max == array.length) {
+                System.arraycopy(array, min, temp, min, max - min);
+            } else {
+                for (int i = min; i < max; ++i) {
+                    temp[i] = -vector.array[i];
+                }
             }
-            this.array = vector.array;
+        }
+        array = temp;
+    }
+
+    public void multiplicationOnScalar(double scalar) {
+        for (int i = 0; i < array.length; ++i) {
+            if (array[i] != 0) {
+                array[i] *= scalar;
+            }
         }
     }
 
-    public void difference(Vector vector) {
-        if (this.array.length >= vector.array.length) {
-            for (int i = 0; i < vector.array.length; ++i) {
-                this.array[i] -= vector.array[i];
-            }
-        } else {
-            for (int i = 0; i < this.array.length; ++i) {
-                vector.array[i] -= this.array[i];
-                vector.array[i] *= -1;
-            }
-            this.array = vector.array;
-        }
+    public void slew() {
+        multiplicationOnScalar(-1);
     }
 
-    public void scalarMultiplication(double scalar) {
-        for (int i = 0; i < this.array.length; ++i) {
-            this.array[i] *= scalar;
-        }
-    }
-
-    public void reversVector() {
-        for (int i = 0; i < this.array.length; ++i) {
-            this.array[i] *= -1;
-        }
-    }
-
-    public double getVectorLength() {
+    public double getLength() {
         double sum = 0;
-        for (double i : this.array) {
-            sum += i * i;
+        for (double e : array) {
+            sum += e * e;
         }
         return Math.sqrt(sum);
     }
 
     public double getComponent(int i) {
-        return this.array[i];
+        return array[i];
     }
 
     public void setComponent(int i, double component) {
-        this.array[i] = component;
+        array[i] = component;
     }
 
     public double getSize() {
-        return this.n;
+        return array.length;
+    }
+
+    public static Vector getVectorsSum(Vector first, Vector second) {
+        int max = Math.max(first.array.length, second.array.length);
+        int min = Math.min(first.array.length, second.array.length);
+        double[] resultArray = new double[max];
+
+        for (int i = 0; i < min; ++i) {
+            resultArray[i] = first.array[i] + second.array[i];
+        }
+
+        if (max != min) {
+            if (max == first.array.length) {
+                System.arraycopy(first.array, min, resultArray, min, max - min);
+            } else {
+                System.arraycopy(second.array, min, resultArray, min, max - min);
+            }
+        }
+
+        return new Vector(resultArray);
+    }
+
+    public static Vector getVectorsDifference(Vector first, Vector second) {
+        int max = Math.max(first.array.length, second.array.length);
+        int min = Math.min(first.array.length, second.array.length);
+        double[] resultArray = new double[max];
+
+        for (int i = 0; i < min; ++i) {
+            resultArray[i] = first.array[i] - second.array[i];
+        }
+
+        if (max != min) {
+            if (max == first.array.length) {
+                System.arraycopy(first.array, min, resultArray, min, max - min);
+            } else {
+                for (int i = min; i < max; ++i) {
+                    resultArray[i] = -second.array[i];
+                }
+            }
+        }
+
+        return new Vector(resultArray);
+    }
+
+    public static double getVectorsScalarMultiplication(Vector first, Vector second) {
+        double scalarMulti = 0;
+        for (int i = 0; i < Math.min(first.getSize(), second.getSize()); ++i) {
+            scalarMulti += first.getComponent(i) * second.getComponent(i);
+        }
+        return scalarMulti;
     }
 }
