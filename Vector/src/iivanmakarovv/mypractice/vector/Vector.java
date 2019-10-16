@@ -11,9 +11,6 @@ public class Vector {
         }
 
         array = new double[n];
-        for (int i = 0; i < n; ++i) {
-            array[i] = 0;
-        }
     }
 
     public Vector(Vector vector) {
@@ -70,12 +67,10 @@ public class Vector {
     @Override
     public String toString() {
         String line = "{";
-        if (array.length != 0) {
-            line += String.valueOf(array[0]);
-            for (int i = 1; i < array.length; ++i) {
-                line = line.concat(", ");
-                line = line.concat(String.valueOf(array[i]));
-            }
+        line += String.valueOf(array[0]);
+        for (int i = 1; i < array.length; ++i) {
+            line = line.concat(", ");
+            line = line.concat(String.valueOf(array[i]));
         }
 
         return line.concat("}");
@@ -151,6 +146,10 @@ public class Vector {
 
     public double getSize() {
         return array.length;
+    }
+
+    public double[] getArray() {
+        return array;
     }
 
     public static Vector getVectorsSum(Vector first, Vector second) {
