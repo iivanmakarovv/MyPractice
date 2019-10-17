@@ -1,7 +1,5 @@
 package iivanmakarovvshapes.shapesmain;
 
-import iivanmakarovv.mypractice.shapes.*;
-import iivanmakarovvmatrix.shapes.*;
 import iivanmakarovvshapes.shapes.*;
 
 import java.util.Arrays;
