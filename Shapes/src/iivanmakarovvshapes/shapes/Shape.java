@@ -1,4 +1,4 @@
-package iivanmakarovv.mypractice.shapes;
+package iivanmakarovvshapes.shapes;
 
 public interface Shape {
     double getWidth();

@@ -1,4 +1,4 @@
-package iivanmakarovv.mypractice.vector;
+package iivanmakarovvvector.vector;
 
 import java.util.Arrays;
 

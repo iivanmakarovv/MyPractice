@@ -1,4 +1,4 @@
-package iivanmakarovv.mypractice.shapes;
+package iivanmakarovvshapes.shapes;
 
 public class Square implements Shape {
     private double side;

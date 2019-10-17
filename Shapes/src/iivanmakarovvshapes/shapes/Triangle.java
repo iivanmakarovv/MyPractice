@@ -1,4 +1,4 @@
-package iivanmakarovv.mypractice.shapes;
+package iivanmakarovvshapes.shapes;
 
 public class Triangle implements Shape {
     private double x1;

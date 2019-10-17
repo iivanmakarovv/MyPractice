@@ -1,6 +1,6 @@
-package iivanmakarovv.mypractice.vectormain;
+package iivanmakarovvvector.vectormain;
 
-import iivanmakarovv.mypractice.vector.Vector;
+import iivanmakarovvvector.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {

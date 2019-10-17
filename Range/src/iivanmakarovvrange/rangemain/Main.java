@@ -1,6 +1,6 @@
-package iivanmakarovv.mypractice.rangemain;
+package iivanmakarovvrange.rangemain;
 
-import iivanmakarovv.mypractice.range.Range;
+import iivanmakarovvrange.range.Range;
 
 public class Main {
     public static void main(String[] args) {

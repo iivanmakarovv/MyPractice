@@ -1,4 +1,4 @@
-package iivanmakarovv.mypractice.shapes;
+package iivanmakarovvshapes.shapes;
 
 public class Circle implements Shape {
     private double radius;

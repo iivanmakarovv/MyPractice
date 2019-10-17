@@ -1,4 +1,4 @@
-package iivanmakarovv.mypractice.range;
+package iivanmakarovvrange.range;
 
 public class Range {
     private double from;
