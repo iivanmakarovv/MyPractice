@@ -144,7 +144,7 @@ public class Vector {
         array[i] = component;
     }
 
-    public double getSize() {
+    public int getSize() {
         return array.length;
     }
 
