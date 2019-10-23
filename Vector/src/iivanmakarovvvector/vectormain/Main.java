@@ -15,19 +15,23 @@ public class Main {
         Vector vector5 = new Vector(array2);
         Vector vector6 = new Vector(array3);
 
-       System.out.println(vector1);
+        /*vector5.minus(vector6);
+        System.out.println(vector5);
+        System.out.println(vector6);
+
+        System.out.println(vector1);
 
         System.out.println(vector2);
         System.out.println(vector5);
         vector2.plus(vector5);
         System.out.println(vector2);
-        vector2.minus(vector5);
-        System.out.println(vector2);
+        System.out.println(vector5);
 
-        System.out.println(Vector.getVectorsSum(vector5, vector6));
-        System.out.println(Vector.getVectorsDifference(vector5, vector6));
-        System.out.println(Vector.getVectorsScalarMultiplication(vector5, vector6));
+        vector2.minus(vector6);
+        System.out.println(vector2);*/
 
-        System.out.println(vector6);
+        System.out.println(Vector.getSum(vector5, vector6));
+        System.out.println(Vector.getDifference(vector5, vector6));
+        System.out.println(Vector.getScalarMultiplication(vector5, vector6));
     }
 }

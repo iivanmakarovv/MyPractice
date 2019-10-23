@@ -52,6 +52,7 @@ public class Vector {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -66,57 +67,67 @@ public class Vector {
 
     @Override
     public String toString() {
-        String line = "{";
-        line += String.valueOf(array[0]);
-        for (int i = 1; i < array.length; ++i) {
-            line = line.concat(", ");
-            line = line.concat(String.valueOf(array[i]));
-        }
+        StringBuilder line = new StringBuilder();
+        line.append("{");
+        line.append(array[0]);
 
-        return line.concat("}");
+        for (int i = 1; i < array.length; ++i) {
+            line.append(", ");
+            line.append(array[i]);
+        }
+        line.append("}");
+
+        return line.toString();
     }
 
     public void plus(Vector vector) {
         int max = Math.max(array.length, vector.array.length);
-        int min = Math.min(array.length, vector.array.length);
-        double[] temp = new double[max];
 
-        for (int i = 0; i < min; ++i) {
-            temp[i] = array[i] + vector.array[i];
-        }
-
-        if (max != min) {
-            if (max == array.length) {
-                System.arraycopy(array, min, temp, min, max - min);
-            } else {
-                System.arraycopy(vector.array, min, temp, min, max - min);
+        if (max == array.length) {
+            for (int i = 0; i < vector.array.length; ++i) {
+                array[i] += vector.array[i];
             }
+        } else {
+            double[] temp = new double[vector.array.length];
+
+            for (int i = 0; i < vector.array.length; ++i) {
+                if (i < array.length) {
+                    temp[i] += vector.array[i] + array[i];
+                } else {
+                    temp[i] += vector.array[i];
+                }
+            }
+            array = temp;
         }
-        array = temp;
     }
 
     public void minus(Vector vector) {
         int max = Math.max(array.length, vector.array.length);
-        int min = Math.min(array.length, vector.array.length);
-        double[] temp = new double[max];
 
-        for (int i = 0; i < min; ++i) {
-            temp[i] = array[i] - vector.array[i];
-        }
+        if (max == array.length) {
+            for (int i = 0; i < vector.array.length; ++i) {
+                array[i] -= vector.array[i];
+            }
+        } else {
+            double[] temp = new double[vector.array.length];
 
-        if (max != min) {
-            if (max == array.length) {
-                System.arraycopy(array, min, temp, min, max - min);
-            } else {
-                for (int i = min; i < max; ++i) {
-                    temp[i] = -vector.array[i];
+            for (int i = 0; i < vector.array.length; ++i) {
+                if (i < array.length) {
+                    temp[i] = vector.array[i] - array[i];
+                } else {
+                    temp[i] = vector.array[i];
                 }
             }
+            for (int i = 0; i < temp.length; ++i) {
+                if (temp[i] != 0) {
+                    temp[i] *= -1;
+                }
+            }
+            array = temp;
         }
-        array = temp;
     }
 
-    public void multiplicationOnScalar(double scalar) {
+    public void multiplyOnScalar(double scalar) {
         for (int i = 0; i < array.length; ++i) {
             if (array[i] != 0) {
                 array[i] *= scalar;
@@ -124,8 +135,8 @@ public class Vector {
         }
     }
 
-    public void slew() {
-        multiplicationOnScalar(-1);
+    public void turn() {
+        multiplyOnScalar(-1);
     }
 
     public double getLength() {
@@ -133,6 +144,7 @@ public class Vector {
         for (double e : array) {
             sum += e * e;
         }
+
         return Math.sqrt(sum);
     }
 
@@ -148,57 +160,30 @@ public class Vector {
         return array.length;
     }
 
-    public double[] getArray() {
-        return array;
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        Vector resultVector = new Vector(vector1.array.length);
+        resultVector.plus(vector1);
+        resultVector.plus(vector2);
+
+        return resultVector;
     }
 
-    public static Vector getVectorsSum(Vector first, Vector second) {
-        int max = Math.max(first.array.length, second.array.length);
-        int min = Math.min(first.array.length, second.array.length);
-        double[] resultArray = new double[max];
+    public static Vector getDifference(Vector vector1, Vector vector2) {
+        Vector resultVector = new Vector(vector1.array.length);
+        resultVector.plus(vector1);
+        resultVector.minus(vector2);
+
+        return resultVector;
+    }
+
+    public static double getScalarMultiplication(Vector vector1, Vector vector2) {
+        int min = Math.min(vector1.getSize(), vector2.getSize());
+        double scalarMultiplication = 0;
 
         for (int i = 0; i < min; ++i) {
-            resultArray[i] = first.array[i] + second.array[i];
+            scalarMultiplication += vector1.getComponent(i) * vector2.getComponent(i);
         }
 
-        if (max != min) {
-            if (max == first.array.length) {
-                System.arraycopy(first.array, min, resultArray, min, max - min);
-            } else {
-                System.arraycopy(second.array, min, resultArray, min, max - min);
-            }
-        }
-
-        return new Vector(resultArray);
-    }
-
-    public static Vector getVectorsDifference(Vector first, Vector second) {
-        int max = Math.max(first.array.length, second.array.length);
-        int min = Math.min(first.array.length, second.array.length);
-        double[] resultArray = new double[max];
-
-        for (int i = 0; i < min; ++i) {
-            resultArray[i] = first.array[i] - second.array[i];
-        }
-
-        if (max != min) {
-            if (max == first.array.length) {
-                System.arraycopy(first.array, min, resultArray, min, max - min);
-            } else {
-                for (int i = min; i < max; ++i) {
-                    resultArray[i] = -second.array[i];
-                }
-            }
-        }
-
-        return new Vector(resultArray);
-    }
-
-    public static double getVectorsScalarMultiplication(Vector first, Vector second) {
-        double scalarMulti = 0;
-        for (int i = 0; i < Math.min(first.getSize(), second.getSize()); ++i) {
-            scalarMulti += first.getComponent(i) * second.getComponent(i);
-        }
-        return scalarMulti;
+        return scalarMultiplication;
     }
 }
