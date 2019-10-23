@@ -23,9 +23,25 @@ public class Matrix {
     }
 
     public Matrix(Vector[] vectors) {
-        this.vectors = new Vector[vectors.length];
+        int max = 0;
+
+        for (Vector e : vectors) {
+            max = Math.max(max, e.getSize());
+        }
+        double[][] temp = new double[vectors.length][max];
+        this.vectors = new Vector[temp.length];
+
         for (int i = 0; i < vectors.length; ++i) {
-            this.vectors[i] = new Vector(vectors[i]);
+            if (vectors[i].getSize() <= max) {
+                for (int k = 0; k < max; ++k) {
+                    if (k < vectors[i].getSize()) {
+                        temp[i][k] = vectors[i].getComponent(k);
+                    } else {
+                        temp[i][k] = 0;
+                    }
+                }
+            }
+            this.vectors[i] = new Vector(temp[i]);
         }
     }
 
@@ -33,42 +49,61 @@ public class Matrix {
         if (arrays.length <= 0) {
             throw new IllegalArgumentException("Размерность матрицы должна быть больше 0");
         }
-        vectors = new Vector[arrays.length];
+
+        int max = 0;
+
+        for (double[] e : arrays) {
+            max = Math.max(max, e.length);
+        }
+        double[][] temp = new double[arrays.length][max];
+        vectors = new Vector[temp.length];
+
         for (int i = 0; i < arrays.length; ++i) {
-            vectors[i] = new Vector(arrays[i]);
+            if (arrays[i].length <= max) {
+                for (int k = 0; k < max; ++k) {
+                    if (k < arrays[i].length) {
+                        temp[i][k] = arrays[i][k];
+                    } else {
+                        temp[i][k] = 0;
+                    }
+                }
+            }
+            vectors[i] = new Vector(temp[i]);
         }
     }
 
     @Override
     public String toString() {
-        String line = "{";
+        StringBuilder line = new StringBuilder();
+        line.append("{");
         for (int i = 0; i < vectors.length; ++i) {
-            line = line.concat("{");
-            line += String.valueOf(vectors[i].getComponent(0));
+            line.append("{");
+            line.append(vectors[i].getComponent(0));
             for (int k = 1; k < vectors[i].getSize(); ++k) {
-                line = line.concat(", ");
-                line = line.concat(String.valueOf(vectors[i].getComponent(k)));
+                line.append(", ");
+                line.append(vectors[i].getComponent(k));
             }
-            line = line.concat("}");
+            line.append("}");
             if (i != vectors.length - 1) {
-                line = line.concat(",");
+                line.append(",");
             }
         }
-        return line.concat("}");
+        line.append("}");
+        return line.toString();
     }
 
-    public Vector getStringVector(int i) {
+    public Vector getString(int i) {
         return vectors[i];
     }
 
-    public void setStringVector(int i, Vector vector) {
+    public void setString(int i, Vector vector) {
         if (vectors[i].getSize() != vector.getSize()) {
             throw new IllegalArgumentException("Необходимо, чтобы размеры векторов были одиннаковые");
         }
         vectors[i] = vector;
     }
 
-    public Vector getColumnVector(int i) {
+    public Vector getColumn(int i) {
         double[] array = new double[vectors.length];
         for (int k = 0; k < vectors.length; ++k) {
             array[k] = vectors[k].getComponent(i);
@@ -77,15 +112,15 @@ public class Matrix {
         return new Vector(array);
     }
 
-    public static Matrix matrixTranspose(Matrix matrix) {
+    public static Matrix transpose(Matrix matrix) {
         Matrix temp = new Matrix(matrix.vectors.length, matrix.vectors[0].getSize());
         for (int i = 0; i < matrix.vectors[0].getSize(); ++i) {
-            temp.setStringVector(i, matrix.getColumnVector(i));
+            temp.setString(i, matrix.getColumn(i));
         }
         return temp;
     }
 
-    public void multiplicationMatrixOnScalar(double scalar) {
+    public void multiplyOnScalar(double scalar) {
         for (Vector v : vectors) {
             for (int k = 0; k < v.getSize(); ++k) {
                 double temp = v.getComponent(k);
@@ -94,18 +129,17 @@ public class Matrix {
         }
     }
 
-    public static Matrix getMinor(Matrix matrix, int i) {
-        Matrix minor = new Matrix(matrix.vectors[0].getSize() - 1, matrix.vectors.length - 1);
+    public Matrix getMinor(int i) {
+        Matrix minor = new Matrix(vectors[0].getSize() - 1, vectors.length - 1);
 
-        for (int y = 1; y < matrix.vectors.length; ++y) {
+        for (int y = 1; y < vectors.length; ++y) {
             int j = 0;
 
-            for (int x = 0; x < matrix.vectors[0].getSize(); ++x) {
+            for (int x = 0; x < vectors[0].getSize(); ++x) {
                 if (x == i) {
                     continue;
                 }
-
-                minor.vectors[y - 1].setComponent(j, matrix.vectors[y].getComponent(x));
+                vectors[y - 1].setComponent(j, vectors[y].getComponent(x));
                 ++j;
             }
         }
@@ -113,21 +147,18 @@ public class Matrix {
         return minor;
     }
 
-    public static double getDeterminant(Matrix matrix) {
-        if (matrix.vectors[0].getSize() == 1) {
-            return matrix.vectors[0].getComponent(0);
+    public double getDeterminant() {
+        if (vectors[0].getSize() == 1) {
+            return vectors[0].getComponent(0);
         }
-        if (matrix.vectors[0].getSize() == 2) {
-            return matrix.vectors[0].getComponent(0) * matrix.vectors[1].getComponent(1) -
-                    matrix.vectors[0].getComponent(1) * matrix.vectors[1].getComponent(0);
+        if (vectors[0].getSize() == 2) {
+            return vectors[0].getComponent(0) * vectors[1].getComponent(1) -
+                    vectors[0].getComponent(1) * vectors[1].getComponent(0);
         }
-
         double determinant = 0;
 
-        for (int i = 0; i < matrix.vectors[0].getSize(); ++i) {
-            Matrix minor = getMinor(matrix, i);
-
-            determinant += Math.pow(-1.0, 2.0 + i) * matrix.vectors[0].getComponent(i) * getDeterminant(minor);
+        for (int i = 0; i < vectors[0].getSize(); ++i) {
+            determinant += Math.pow(-1.0, 2.0 + i) * vectors[0].getComponent(i) * this.getMinor(i).getDeterminant();
         }
 
         return determinant;
