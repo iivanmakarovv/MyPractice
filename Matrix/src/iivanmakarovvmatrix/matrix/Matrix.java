@@ -92,6 +92,14 @@ public class Matrix {
         return line.toString();
     }
 
+    public int getHeight() {
+        return vectors.length;
+    }
+
+    public int getWidth() {
+        return vectors[0].getSize();
+    }
+
     public Vector getString(int i) {
         return vectors[i];
     }
@@ -112,10 +120,10 @@ public class Matrix {
         return new Vector(array);
     }
 
-    public static Matrix transpose(Matrix matrix) {
-        Matrix temp = new Matrix(matrix.vectors.length, matrix.vectors[0].getSize());
-        for (int i = 0; i < matrix.vectors[0].getSize(); ++i) {
-            temp.setString(i, matrix.getColumn(i));
+    public Matrix transpose() {
+        Matrix temp = new Matrix(vectors.length, vectors[0].getSize());
+        for (int i = 0; i < vectors[0].getSize(); ++i) {
+            temp.setString(i, getColumn(i));
         }
         return temp;
     }
@@ -162,5 +170,57 @@ public class Matrix {
         }
 
         return determinant;
+    }
+
+    public void plus(Matrix matrix) {
+        int max = Math.max(getHeight(), matrix.getHeight());
+
+        if (max == getHeight()) {
+            for (int i = 0; i < matrix.getHeight(); ++i) {
+                getString(i).plus(matrix.getString(i));
+            }
+        } else {
+            Matrix temp = new Matrix(matrix.getWidth(), matrix.getHeight());
+
+            for (int i = 0; i < matrix.getHeight(); ++i) {
+                if (i < getHeight()) {
+                    temp.getString(i).plus(matrix.getString(i));
+                    temp.getString(i).plus(getString(i));
+                } else {
+                    temp.getString(i).plus(matrix.getString(i));
+                }
+            }
+            vectors = new Vector[matrix.getHeight()];
+
+            for (int i = 0; i < vectors.length; ++i) {
+                vectors[i] = new Vector(temp.vectors[i]);
+            }
+        }
+    }
+
+    public void minus(Matrix matrix) {
+        int max = Math.max(getHeight(), matrix.getHeight());
+
+        if (max == getHeight()) {
+            for (int i = 0; i < matrix.getHeight(); ++i) {
+                getString(i).minus(matrix.getString(i));
+            }
+        } else {
+            Matrix temp = new Matrix(matrix.getWidth(), matrix.getHeight());
+
+            for (int i = 0; i < matrix.getHeight(); ++i) {
+                if (i < getHeight()) {
+                    temp.getString(i).minus(matrix.getString(i));
+                    temp.getString(i).plus(getString(i));
+                } else {
+                    temp.getString(i).minus(matrix.getString(i));
+                }
+            }
+            vectors = new Vector[matrix.getHeight()];
+
+            for (int i = 0; i < vectors.length; ++i) {
+                vectors[i] = new Vector(temp.vectors[i]);
+            }
+        }
     }
 }
