@@ -172,6 +172,22 @@ public class Matrix {
         return determinant;
     }
 
+    public void multiplyOnVector(Vector vector) {
+        if (getWidth() != vector.getSize()) {
+            throw new IllegalArgumentException("Размерность вектора должна быть равна ширине матрицы");
+        }
+
+        double temp = 0;
+
+        for (int i = 0; i < getHeight(); ++i) {
+            for (int k = 0; k < getWidth(); ++k) {
+                temp += vectors[i].getComponent(k) * vector.getComponent(k);
+            }
+            vectors[i] = new Vector(1);
+            vectors[i].setComponent(0, temp);
+        }
+    }
+
     public void plus(Matrix matrix) {
         int max = Math.max(getHeight(), matrix.getHeight());
 
