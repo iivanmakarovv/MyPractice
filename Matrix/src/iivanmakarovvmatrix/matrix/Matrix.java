@@ -156,6 +156,10 @@ public class Matrix {
     }
 
     public double getDeterminant() {
+        if (getWidth() != getHeight()) {
+            throw new IllegalArgumentException("Необходимо, чтобы ширина и высота матрицы были одиннаковые");
+        }
+
         if (vectors[0].getSize() == 1) {
             return vectors[0].getComponent(0);
         }
@@ -176,15 +180,19 @@ public class Matrix {
         if (getWidth() != vector.getSize()) {
             throw new IllegalArgumentException("Размерность вектора должна быть равна ширине матрицы");
         }
-
-        double temp = 0;
+        Matrix matrix = new Matrix(1, 4);
 
         for (int i = 0; i < getHeight(); ++i) {
+            double temp = 0;
+
             for (int k = 0; k < getWidth(); ++k) {
                 temp += vectors[i].getComponent(k) * vector.getComponent(k);
             }
+            matrix.vectors[i].setComponent(0, temp);
+        }
+        for (int i = 0; i < getHeight(); ++i) {
             vectors[i] = new Vector(1);
-            vectors[i].setComponent(0, temp);
+            vectors[i].setComponent(0, matrix.vectors[i].getComponent(0));
         }
     }
 
@@ -238,5 +246,36 @@ public class Matrix {
                 vectors[i] = new Vector(temp.vectors[i]);
             }
         }
+    }
+
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
+        Matrix resultMatrix = new Matrix(1, 1);
+        resultMatrix.plus(matrix1);
+        resultMatrix.plus(matrix2);
+
+        return resultMatrix;
+    }
+
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
+        Matrix resultMatrix = new Matrix(1, 1);
+        resultMatrix.plus(matrix1);
+        resultMatrix.minus(matrix2);
+
+        return resultMatrix;
+    }
+
+    public static Matrix getMultiplication(Matrix matrix1, Matrix matrix2) {
+        Matrix resultMatrix = new Matrix(matrix1.getHeight(), matrix2.getWidth());
+
+        for (int k = 0; k < matrix2.getWidth(); ++k) {
+            Matrix temp = new Matrix(1, 1);
+            temp.plus(matrix1);
+            temp.multiplyOnVector(matrix2.getColumn(k));
+
+            for (int i = 0; i < temp.getHeight(); ++i) {
+                resultMatrix.vectors[i].setComponent(k, temp.vectors[i].getComponent(0));
+            }
+        }
+        return resultMatrix;
     }
 }
