@@ -3,34 +3,34 @@ package iivanmakarovvvector.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private double[] array;
+    private double[] elements;
 
     public Vector(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть больше 0");
         }
 
-        array = new double[n];
+        elements = new double[n];
     }
 
     public Vector(Vector vector) {
-        array = Arrays.copyOf(vector.array, vector.array.length);
+        elements = Arrays.copyOf(vector.elements, vector.elements.length);
     }
 
-    public Vector(double[] array) {
-        if (array.length <= 0) {
+    public Vector(double[] elements) {
+        if (elements.length <= 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть больше 0");
         }
 
-        this.array = Arrays.copyOf(array, array.length);
+        this.elements = Arrays.copyOf(elements, elements.length);
     }
 
-    public Vector(int n, double[] array) {
+    public Vector(int n, double[] elements) {
         if (n <= 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть больше 0");
         }
 
-        this.array = Arrays.copyOf(array, n);
+        this.elements = Arrays.copyOf(elements, n);
     }
 
     @Override
@@ -44,11 +44,11 @@ public class Vector {
 
         Vector vector = (Vector) o;
 
-        if (array.length != vector.array.length) {
+        if (elements.length != vector.elements.length) {
             return false;
         }
-        for (int i = 0; i < array.length; ++i) {
-            if (array[i] != vector.array[i]) {
+        for (int i = 0; i < elements.length; ++i) {
+            if (elements[i] != vector.elements[i]) {
                 return false;
             }
         }
@@ -60,7 +60,7 @@ public class Vector {
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Arrays.hashCode(array);
+        hash = prime * hash + Arrays.hashCode(elements);
 
         return hash;
     }
@@ -69,11 +69,11 @@ public class Vector {
     public String toString() {
         StringBuilder line = new StringBuilder();
         line.append("{");
-        line.append(array[0]);
+        line.append(elements[0]);
 
-        for (int i = 1; i < array.length; ++i) {
+        for (int i = 1; i < elements.length; ++i) {
             line.append(", ");
-            line.append(array[i]);
+            line.append(elements[i]);
         }
         line.append("}");
 
@@ -81,56 +81,51 @@ public class Vector {
     }
 
     public void plus(Vector vector) {
-        int max = Math.max(array.length, vector.array.length);
-
-        if (max == array.length) {
-            for (int i = 0; i < vector.array.length; ++i) {
-                array[i] += vector.array[i];
+        if (elements.length >= vector.elements.length) {
+            for (int i = 0; i < vector.elements.length; ++i) {
+                elements[i] += vector.elements[i];
             }
         } else {
-            double[] temp = new double[vector.array.length];
+            double[] temp = new double[vector.elements.length];
 
-            for (int i = 0; i < vector.array.length; ++i) {
-                if (i < array.length) {
-                    temp[i] += vector.array[i] + array[i];
+            for (int i = 0; i < vector.elements.length; ++i) {
+                if (i < elements.length) {
+                    temp[i] += vector.elements[i] + elements[i];
                 } else {
-                    temp[i] += vector.array[i];
+                    temp[i] += vector.elements[i];
                 }
             }
-            array = temp;
+            elements = temp;
         }
     }
 
     public void minus(Vector vector) {
-        int max = Math.max(array.length, vector.array.length);
-
-        if (max == array.length) {
-            for (int i = 0; i < vector.array.length; ++i) {
-                array[i] -= vector.array[i];
+        if (elements.length >= vector.elements.length) {
+            for (int i = 0; i < vector.elements.length; ++i) {
+                elements[i] -= vector.elements[i];
             }
         } else {
-            double[] temp = new double[vector.array.length];
+            double[] temp = new double[vector.elements.length];
 
-            for (int i = 0; i < vector.array.length; ++i) {
-                if (i < array.length) {
-                    temp[i] = vector.array[i] - array[i];
+            for (int i = 0; i < vector.elements.length; ++i) {
+                if (i < elements.length) {
+                    temp[i] = vector.elements[i] - elements[i];
                 } else {
-                    temp[i] = vector.array[i];
+                    temp[i] = vector.elements[i];
                 }
-            }
-            for (int i = 0; i < temp.length; ++i) {
+
                 if (temp[i] != 0) {
                     temp[i] *= -1;
                 }
             }
-            array = temp;
+            elements = temp;
         }
     }
 
     public void multiplyOnScalar(double scalar) {
-        for (int i = 0; i < array.length; ++i) {
-            if (array[i] != 0) {
-                array[i] *= scalar;
+        for (int i = 0; i < elements.length; ++i) {
+            if (elements[i] != 0) {
+                elements[i] *= scalar;
             }
         }
     }
@@ -141,7 +136,7 @@ public class Vector {
 
     public double getLength() {
         double sum = 0;
-        for (double e : array) {
+        for (double e : elements) {
             sum += e * e;
         }
 
@@ -149,19 +144,19 @@ public class Vector {
     }
 
     public double getComponent(int i) {
-        return array[i];
+        return elements[i];
     }
 
     public void setComponent(int i, double component) {
-        array[i] = component;
+        elements[i] = component;
     }
 
     public int getSize() {
-        return array.length;
+        return elements.length;
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
-        Vector resultVector = new Vector(vector1.array.length);
+        Vector resultVector = new Vector(vector1.elements.length);
         resultVector.plus(vector1);
         resultVector.plus(vector2);
 
@@ -169,7 +164,7 @@ public class Vector {
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        Vector resultVector = new Vector(vector1.array.length);
+        Vector resultVector = new Vector(vector1.elements.length);
         resultVector.plus(vector1);
         resultVector.minus(vector2);
 

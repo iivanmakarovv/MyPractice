@@ -197,9 +197,7 @@ public class Matrix {
     }
 
     public void plus(Matrix matrix) {
-        int max = Math.max(getHeight(), matrix.getHeight());
-
-        if (max == getHeight()) {
+        if (getHeight() >= matrix.getHeight()) {
             for (int i = 0; i < matrix.getHeight(); ++i) {
                 getString(i).plus(matrix.getString(i));
             }
@@ -223,9 +221,7 @@ public class Matrix {
     }
 
     public void minus(Matrix matrix) {
-        int max = Math.max(getHeight(), matrix.getHeight());
-
-        if (max == getHeight()) {
+        if (getHeight() >= matrix.getHeight()) {
             for (int i = 0; i < matrix.getHeight(); ++i) {
                 getString(i).minus(matrix.getString(i));
             }
