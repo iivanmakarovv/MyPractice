@@ -37,12 +37,7 @@ public class Matrix {
 
         for (int i = 0; i < rows.length; ++i) {
             this.rows[i] = new Vector(max);
-
-            for (int k = 0; k < max; ++k) {
-                if (k < rows[i].getSize()) {
-                    this.rows[i].setComponent(k, rows[i].getComponent(k));
-                }
-            }
+            this.rows[i].plus(rows[i]);
         }
     }
 
