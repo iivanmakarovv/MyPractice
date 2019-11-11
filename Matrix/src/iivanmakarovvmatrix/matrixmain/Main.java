@@ -18,13 +18,13 @@ public class Main {
         vectors[2] = new Vector(arrays1[2]);
         Matrix matrix3 = new Matrix(vectors);
 
-        /*matrix1.plus(matrix2);
-        System.out.println(matrix1);
-        matrix1.minus(matrix2);
-        System.out.println(matrix1);
+//        matrix1.plus(matrix2);
+//        System.out.println(matrix1);
+//        matrix1.minus(matrix2);
+//        System.out.println(matrix1);
         System.out.println(matrix1.multiplyOnVector(vector));
-        System.out.println(Matrix.getSum(matrix1, matrix2));
-        System.out.println(Matrix.getDifference(matrix1, matrix2));
-        System.out.println(Matrix.getMultiplication(matrix1, matrix2));*/
+//        System.out.println(Matrix.getSum(matrix1, matrix2));
+//        System.out.println(Matrix.getDifference(matrix1, matrix2));
+//        System.out.println(Matrix.getMultiplication(matrix1, matrix2));
     }
 }

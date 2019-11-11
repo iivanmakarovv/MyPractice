@@ -88,16 +88,16 @@ public class Matrix {
     }
 
     public Vector getRow(int i) {
-        if (i >= getRowsCount()) {
-            throw new IllegalArgumentException("В данной матрице строки с таким индексом нет");
+        if (i < 0 || i >= getRowsCount()) {
+            throw new ArrayIndexOutOfBoundsException("В данной матрице строки с таким индексом нет");
         }
 
         return new Vector(rows[i]);
     }
 
     public void setRow(int i, Vector vector) {
-        if (i >= getRowsCount()) {
-            throw new IllegalArgumentException("В данной матрице строки с таким индексом нет");
+        if (i < 0 || i >= getRowsCount()) {
+            throw new ArrayIndexOutOfBoundsException("В данной матрице строки с таким индексом нет");
         }
 
         if (getColumnsCount() != vector.getSize()) {
@@ -107,8 +107,8 @@ public class Matrix {
     }
 
     public Vector getColumn(int i) {
-        if (i >= getColumnsCount()) {
-            throw new IllegalArgumentException("В данной матрице столбца с таким индексом нет");
+        if (i < 0 || i >= getColumnsCount()) {
+            throw new ArrayIndexOutOfBoundsException("В данной матрице столбца с таким индексом нет");
         }
 
         Vector vector = new Vector(rows.length);
@@ -121,14 +121,10 @@ public class Matrix {
     }
 
     public void transpose() {
-        double temp;
-
-        for (int i = 0; i < rows.length; i++) {
-            for (int j = i + 1; j < getColumnsCount(); j++) {
-                temp = rows[i].getComponent(j);
-                rows[i].setComponent(j, rows[j].getComponent(i));
-                rows[j].setComponent(i, temp);
-            }
+        Matrix temp = new Matrix(rows);
+        rows = new Vector[temp.getColumnsCount()];
+        for (int i = 0; i < temp.getColumnsCount(); i++) {
+            rows[i] = new Vector(temp.getColumn(i));
         }
     }
 
@@ -184,7 +180,7 @@ public class Matrix {
             throw new IllegalArgumentException("Размерность вектора должна быть равна ширине матрицы");
         }
 
-        Vector resultVector = new Vector(getColumnsCount());
+        Vector resultVector = new Vector(getRowsCount());
 
         for (int i = 0; i < getRowsCount(); ++i) {
             resultVector.setComponent(i, Vector.getScalarMultiplication(rows[i], vector));
