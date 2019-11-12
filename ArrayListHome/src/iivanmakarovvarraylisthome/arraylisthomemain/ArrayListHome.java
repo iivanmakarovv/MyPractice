@@ -42,6 +42,7 @@ public class ArrayListHome {
             for (Integer element : list2) {
                 if (list.get(i).equals(element)) {
                     isRepeating = true;
+                    break;
                 }
             }
 
