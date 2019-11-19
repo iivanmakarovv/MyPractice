@@ -8,61 +8,63 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    private static ArrayList<String> addToListStringsFromFile(ArrayList<String> list, String fileName) throws FileNotFoundException {
-        File input = new File("C:/Users/Ivan/Desktop", fileName);
+    private static ArrayList<String> getStringsFromFile(String fileDirectory, String fileName)
+            throws FileNotFoundException {
+        File input = new File(fileDirectory, fileName);
 
         try (Scanner scanner = new Scanner(new FileInputStream(input))) {
-            while (scanner.hasNextLine()) {
-                list.add(scanner.nextLine());
-            }
-        }
+            ArrayList<String> fileStrings = new ArrayList<>();
 
-        return list;
+            while (scanner.hasNextLine()) {
+                fileStrings.add(scanner.nextLine());
+            }
+
+            return fileStrings;
+        }
     }
 
-    private static ArrayList<Integer> deleteAllEvenNumbers(ArrayList<Integer> list) {
-        //list.removeIf(element -> element % 2 == 0); (Сначала сделал таким образом)
-
-        for (int i = 0; i < list.size(); ++i) {
-            if (list.get(i) % 2 == 0) {
-                list.remove(i);
+    private static void deleteAllEvenNumbers(ArrayList<Integer> numbersList) {
+        for (int i = 0; i < numbersList.size(); ++i) {
+            if (numbersList.get(i) % 2 == 0) {
+                numbersList.remove(i);
                 --i;
             }
         }
-
-        return list;
     }
 
-    private static ArrayList<Integer> addToNewListNotRepeatingNumbers(ArrayList<Integer> list) {
-        ArrayList<Integer> list2 = new ArrayList<>();
-        list2.add(0, list.get(0));
+    private static ArrayList<Integer> getListWithoutRepeatingNumbers(ArrayList<Integer> listWithRepeating) {
+        if (listWithRepeating.isEmpty()) {
+            throw new IllegalArgumentException("Выбранный список пуст");
+        }
 
-        for (int i = 1; i < list.size(); ++i) {
-            boolean isRepeating = false;
-            for (Integer element : list2) {
-                if (list.get(i).equals(element)) {
-                    isRepeating = true;
-                    break;
-                }
-            }
+        ArrayList<Integer> listWithoutRepeating = new ArrayList<>();
+        listWithoutRepeating.add(0, listWithRepeating.get(0));
 
+        boolean isRepeating;
+        for (int i = 1; i < listWithRepeating.size(); ++i) {
+            isRepeating = listWithoutRepeating.contains(listWithRepeating.get(i));
             if (!isRepeating) {
-                list2.add(list.get(i));
+                listWithoutRepeating.add(listWithRepeating.get(i));
             }
         }
 
-        return list2;
+        return listWithoutRepeating;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        ArrayList<String> list = new ArrayList<>();
-        String fileName = "arraylisthome.txt";
-        System.out.println(addToListStringsFromFile(list, fileName));
+    public static void main(String[] args) {
+        try {
+            String fileDirectory = "C:/Users/Ivan/Desktop";
+            String fileName = "arraylisthome.txt";
+            System.out.println(getStringsFromFile(fileDirectory, fileName));
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
-        ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        System.out.println(deleteAllEvenNumbers(list2));
+        ArrayList<Integer> numbersList = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        deleteAllEvenNumbers(numbersList);
+        System.out.println(numbersList);
 
-        ArrayList<Integer> list3 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 1, 5, 6, 3, 7, 8, 2, 9, 10));
-        System.out.println(addToNewListNotRepeatingNumbers(list3));
+        ArrayList<Integer> listWithRepeating = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 1, 5, 6, 3, 7, 8, 2, 9, 10));
+        System.out.println(getListWithoutRepeatingNumbers(listWithRepeating));
     }
 }
