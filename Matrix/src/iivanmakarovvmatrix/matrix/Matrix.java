@@ -121,11 +121,11 @@ public class Matrix {
     }
 
     public void transpose() {
-        Matrix temp = new Matrix(rows);
-        rows = new Vector[temp.getColumnsCount()];
-        for (int i = 0; i < temp.getColumnsCount(); i++) {
-            rows[i] = new Vector(temp.getColumn(i));
+        Vector[] temp = new Vector[getColumnsCount()];
+        for (int i = 0; i < getColumnsCount(); i++) {
+            temp[i] = new Vector(getColumn(i));
         }
+        rows = temp;
     }
 
     public void multiplyOnScalar(double scalar) {
