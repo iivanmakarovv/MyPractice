@@ -89,7 +89,7 @@ public class Matrix {
 
     public Vector getRow(int i) {
         if (i < 0 || i >= getRowsCount()) {
-            throw new ArrayIndexOutOfBoundsException("В данной матрице строки с таким индексом нет");
+            throw new IndexOutOfBoundsException("В данной матрице строки с таким индексом нет");
         }
 
         return new Vector(rows[i]);
@@ -97,7 +97,7 @@ public class Matrix {
 
     public void setRow(int i, Vector vector) {
         if (i < 0 || i >= getRowsCount()) {
-            throw new ArrayIndexOutOfBoundsException("В данной матрице строки с таким индексом нет");
+            throw new IndexOutOfBoundsException("В данной матрице строки с таким индексом нет");
         }
 
         if (getColumnsCount() != vector.getSize()) {
@@ -108,7 +108,7 @@ public class Matrix {
 
     public Vector getColumn(int i) {
         if (i < 0 || i >= getColumnsCount()) {
-            throw new ArrayIndexOutOfBoundsException("В данной матрице столбца с таким индексом нет");
+            throw new IndexOutOfBoundsException("В данной матрице столбца с таким индексом нет");
         }
 
         Vector vector = new Vector(rows.length);
