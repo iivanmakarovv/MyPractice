@@ -123,7 +123,7 @@ public class Matrix {
     public void transpose() {
         Vector[] temp = new Vector[getColumnsCount()];
         for (int i = 0; i < getColumnsCount(); i++) {
-            temp[i] = new Vector(getColumn(i));
+            temp[i] = getColumn(i);
         }
         rows = temp;
     }
