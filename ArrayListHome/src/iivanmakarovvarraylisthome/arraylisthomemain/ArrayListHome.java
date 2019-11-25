@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    private static ArrayList<String> getStringsFromFile(String fileDirectory, String fileName)
-            throws FileNotFoundException {
+    private static ArrayList<String> getStringsFromFile(String fileDirectory, String fileName) throws FileNotFoundException {
         File input = new File(fileDirectory, fileName);
 
         try (Scanner scanner = new Scanner(new FileInputStream(input))) {
@@ -33,17 +32,12 @@ public class ArrayListHome {
     }
 
     private static ArrayList<Integer> getListWithoutRepeatingNumbers(ArrayList<Integer> listWithRepeating) {
-        if (listWithRepeating.isEmpty()) {
-            throw new IllegalArgumentException("Выбранный список пуст");
-        }
-
         ArrayList<Integer> listWithoutRepeating = new ArrayList<>();
-        listWithoutRepeating.add(0, listWithRepeating.get(0));
 
-        boolean isRepeating;
-        for (int i = 1; i < listWithRepeating.size(); ++i) {
-            isRepeating = listWithoutRepeating.contains(listWithRepeating.get(i));
-            if (!isRepeating) {
+        for (int i = 0; i < listWithRepeating.size(); ++i) {
+            if (i == 0) {
+                listWithoutRepeating.add(i, listWithRepeating.get(i));
+            } else if (!listWithoutRepeating.contains(listWithRepeating.get(i))) {
                 listWithoutRepeating.add(listWithRepeating.get(i));
             }
         }
