@@ -34,11 +34,9 @@ public class ArrayListHome {
     private static ArrayList<Integer> getListWithoutRepeatingNumbers(ArrayList<Integer> listWithRepeating) {
         ArrayList<Integer> listWithoutRepeating = new ArrayList<>();
 
-        for (int i = 0; i < listWithRepeating.size(); ++i) {
-            if (i == 0) {
-                listWithoutRepeating.add(i, listWithRepeating.get(i));
-            } else if (!listWithoutRepeating.contains(listWithRepeating.get(i))) {
-                listWithoutRepeating.add(listWithRepeating.get(i));
+        for (Integer e : listWithRepeating) {
+            if (!listWithoutRepeating.contains(e)) {
+                listWithoutRepeating.add(e);
             }
         }
 
